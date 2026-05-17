@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:8080/api'
+const BASE_URL = 'https://inventory-server-vfc0.onrender.com/api'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({

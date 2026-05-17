@@ -3,7 +3,8 @@ import { useAuthStore } from '../stores/auth'
 import router from '../router'
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  // Use localhost when running 'npm run dev', but use the Render backend in production (GitHub Pages)
+  baseURL: 'https://inventory-server-vfc0.onrender.com/api',
   headers: { 'Content-Type': 'application/json' }
 })
 
