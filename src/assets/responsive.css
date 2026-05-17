@@ -1,0 +1,105 @@
+/* responsive.css - Mobile-First Layout Adjustments */
+
+/* Base mobile resets */
+html, body, #app {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Small devices (phones, less than 768px) */
+@media (max-width: 767.98px) {
+  /* Hide standard sidebar on mobile */
+  .layout-container .sidebar {
+    display: none !important;
+  }
+  
+  /* Show hamburger or bottom menu */
+  .mobile-header-toggle {
+    display: flex !important;
+  }
+
+  /* Make header smaller and responsive */
+  .app-header {
+    padding: 0 16px !important;
+    height: 56px !important;
+  }
+  
+  .page-title {
+    font-size: 16px !important;
+  }
+  
+  .app-main {
+    padding: 16px !important;
+  }
+  
+  /* Utility to hide elements on mobile */
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  /* Hide duplicate view headers since Layout has page title, but keep action buttons */
+  .view-header h3 {
+    display: none !important;
+  }
+  .view-header {
+    margin-bottom: 12px !important;
+    justify-content: flex-end !important;
+  }
+
+  /* Tables horizontally scrollable */
+  .el-table {
+    display: block !important;
+    overflow-x: auto !important;
+  }
+  
+  /* Form elements stack */
+  .el-form-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .el-form-item__label {
+    margin-bottom: 4px !important;
+  }
+  .el-form-item__content {
+    width: 100% !important;
+  }
+  
+  /* Dialogs full width */
+  .el-dialog {
+    width: 90% !important;
+    margin-top: 5vh !important;
+  }
+
+  /* Stack layout for grids */
+  .kpi-grid, .dashboard-grid, .form-grid, .report-kpis, .charts-row, .charts-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Make date pickers and select dropdowns fit */
+  .el-date-editor, .el-select {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  /* User chip inside header */
+  .user-info {
+    display: none !important;
+  }
+}
+
+/* Tablets (768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .layout-container .sidebar {
+    width: 200px !important;
+  }
+  .el-dialog {
+    width: 70% !important;
+  }
+}
+
+/* Desktop (992px and up) */
+@media (min-width: 992px) {
+  .mobile-menu-wrapper, .mobile-header-toggle {
+    display: none !important;
+  }
+}

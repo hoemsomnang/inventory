@@ -1,0 +1,59 @@
+/* theme.css - Professional Color Palette & Micro-Animations */
+:root {
+  /* Updated vibrant professional palette */
+  --primary: #008080; /* Deep Teal */
+  --primary-dark: #006666;
+  --primary-light: #339999;
+  --accent: #4B0082; /* Indigo */
+  
+  --surface: #121212; /* Deep charcoal background */
+  --surface-2: #1e1e1e;
+  --surface-3: #2a2a2a;
+  
+  --text: #e0e0e0;
+  --text-muted: #a0a0a0;
+  --border: rgba(255, 255, 255, 0.08);
+  
+  --radius: 12px;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --glow: 0 0 20px rgba(0, 128, 128, 0.4);
+  
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+/* Micro-animations */
+.el-button {
+  transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast) !important;
+}
+.el-button:hover {
+  transform: translateY(-2px);
+}
+.el-button:active {
+  transform: translateY(0);
+}
+
+.el-table__row {
+  transition: background-color var(--transition-fast) !important;
+}
+
+.el-card {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal) !important;
+}
+.el-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow) !important;
+}
+
+/* Typography Overrides */
+body {
+  font-family: 'Inter', 'Outfit', sans-serif;
+}
