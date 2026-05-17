@@ -11,36 +11,77 @@ body,
 /* Small devices (phones, less than 768px) */
 @media (max-width: 767.98px) {
 
+  /* Light Theme Overrides for Mobile Only */
+  :root {
+    --primary: #4fa5ff;
+    --primary-dark: #3b82f6;
+    --primary-light: #93c5fd;
+    --surface: #f4f7fb;
+    --surface-2: #ffffff;
+    --surface-3: #f8fafc;
+    --text: #1a1a1a;
+    --text-h: #111111;
+    --text-muted: #888888;
+    --border: rgba(0, 0, 0, 0.06);
+    --el-bg-color: #f4f7fb;
+    --el-bg-color-overlay: #ffffff;
+    --el-text-color-primary: #1a1a1a;
+    --el-text-color-regular: #333333;
+    --el-border-color: rgba(0,0,0,0.06);
+    --el-border-color-light: rgba(0,0,0,0.04);
+    --el-fill-color-blank: #ffffff;
+  }
+
+  body, html, #app {
+    background: var(--surface) !important;
+    color: var(--text) !important;
+  }
+
   /* Hide standard sidebar on mobile */
   .layout-container .sidebar {
     display: none !important;
   }
 
-  /* Show hamburger or bottom menu */
+  /* Hide old mobile header toggle since we will use bottom nav */
   .mobile-header-toggle {
+    display: none !important;
+  }
+
+  .mobile-logo {
+    display: flex !important;
+    align-items: center;
+    color: #1a1a1a;
+  }
+
+  .hidden-desktop {
     display: flex !important;
   }
 
-  /* Make header smaller and responsive */
+  /* Make header transparent and floating like the design */
   .app-header {
-    padding: 0 16px !important;
-    height: 56px !important;
+    padding: 10px 20px !important;
+    height: auto !important;
+    background: transparent !important;
+    border-bottom: none !important;
+    margin-top: 10px;
   }
 
   .page-title {
-    font-size: 16px !important;
+    font-size: 24px !important;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    color: #1a1a1a !important;
   }
 
   .app-main {
-    padding: 16px !important;
+    padding: 16px 20px 100px !important; /* Extra bottom padding for bottom nav */
+    background: transparent !important;
   }
 
-  /* Utility to hide elements on mobile */
   .hidden-mobile {
     display: none !important;
   }
 
-  /* Hide duplicate view headers since Layout has page title, but keep action buttons */
   .view-header h3 {
     display: none !important;
   }
@@ -50,33 +91,111 @@ body,
     justify-content: flex-end !important;
   }
 
-  /* Tables horizontally scrollable */
-  .el-table {
-    display: block !important;
-    overflow-x: auto !important;
+  /* --- Modern Light Mobile Cards --- */
+  .el-card {
+    border-radius: 24px !important;
+    border: none !important;
+    background: #ffffff !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04) !important;
+    overflow: hidden !important;
+  }
+  
+  .el-card__body {
+    padding: 16px !important;
   }
 
-  /* Form elements stack */
+  /* --- Modern Light Mobile Table Layout --- */
+  .el-table {
+    --el-table-bg-color: transparent !important;
+    --el-table-tr-bg-color: transparent !important;
+    --el-table-header-bg-color: #f8fafc !important;
+    --el-table-row-hover-bg-color: #f0f4f8 !important;
+    --el-table-border-color: rgba(0, 0, 0, 0.04) !important;
+    font-size: 14px !important;
+    color: #1a1a1a !important;
+  }
+  
+  .el-table th.el-table__cell {
+    padding: 12px 8px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase;
+    font-weight: 700 !important;
+    color: #888 !important;
+  }
+
+  .el-table td.el-table__cell {
+    padding: 16px 8px !important;
+  }
+
+  .el-table .cell {
+    padding: 0 !important;
+    line-height: 1.4 !important;
+    white-space: nowrap !important;
+  }
+
+  .el-table .cell.el-tooltip {
+    white-space: normal !important;
+  }
+
+  /* Form elements stack - FIXED for mobile */
   .el-form-item {
     flex-direction: column !important;
     align-items: flex-start !important;
+    margin-bottom: 20px !important;
   }
 
   .el-form-item__label {
-    margin-bottom: 4px !important;
+    width: 100% !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    margin-bottom: 8px !important;
+    line-height: 1.2 !important;
+    padding: 0 !important;
+    color: #555 !important;
+    font-weight: 600;
   }
 
   .el-form-item__content {
     width: 100% !important;
+    margin-left: 0 !important; /* Fix overflow and alignment */
+    flex-wrap: wrap;
   }
 
-  /* Dialogs full width */
+  /* Soft inputs for light theme */
+  .el-input__wrapper, .el-textarea__inner {
+    background-color: #f4f7fb !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+  }
+
+  /* Primary Button styling */
+  .el-button--primary, .el-button--success {
+    border-radius: 16px !important;
+    height: 48px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8px 20px rgba(79, 165, 255, 0.3) !important;
+  }
+  
+  .el-button--success {
+    background: #4fa5ff !important;
+    border-color: #4fa5ff !important;
+  }
+
+  .el-form-item__content > .el-select,
+  .el-form-item__content > .el-input-number,
+  .el-form-item__content > .el-date-editor,
+  .el-form-item__content > .el-button {
+    width: 100% !important;
+  }
+
   .el-dialog {
     width: 90% !important;
     margin-top: 5vh !important;
+    border-radius: 24px !important;
   }
 
-  /* Stack layout for grids */
   .kpi-grid,
   .dashboard-grid,
   .form-grid,
@@ -86,16 +205,60 @@ body,
     grid-template-columns: 1fr !important;
   }
 
-  /* Make date pickers and select dropdowns fit */
   .el-date-editor,
   .el-select {
     width: 100% !important;
     max-width: 100%;
   }
 
-  /* User chip inside header */
   .user-info {
     display: none !important;
+  }
+  
+  .user-avatar {
+    border: 2px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  /* Floating Bottom Nav styling */
+  .mobile-bottom-nav {
+    position: fixed !important;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border-radius: 40px;
+    display: flex !important;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    z-index: 2000;
+  }
+
+  .mobile-bottom-nav .nav-item {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a0a0a0;
+    font-size: 22px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .mobile-bottom-nav .nav-item.active {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+
+  .mobile-bottom-nav .nav-fab {
+    background: #4fa5ff;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(79, 165, 255, 0.4);
+    cursor: pointer;
   }
 }
 

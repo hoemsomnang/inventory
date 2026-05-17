@@ -64,8 +64,10 @@
             circle 
             text 
             @click="mobileMenuVisible = true" 
-            style="display: none; margin-right: 12px; font-size: 20px; color: var(--text);" 
           />
+          <div class="mobile-logo hidden-desktop">
+            <el-icon class="logo-icon"><Box /></el-icon>
+          </div>
           <h2 class="page-title">{{ pageTitle }}</h2>
         </div>
         <div class="header-right">
@@ -104,6 +106,25 @@
     
     <!-- Mobile Navigation Drawer -->
     <MobileMenu v-model="mobileMenuVisible" />
+    
+    <!-- Mobile Bottom Navigation (Light Theme UI) -->
+    <div class="mobile-bottom-nav hidden-desktop">
+      <router-link to="/" class="nav-item" exact-active-class="active">
+        <el-icon><HomeFilled /></el-icon>
+      </router-link>
+      <router-link to="/stock/in" class="nav-item" exact-active-class="active">
+        <el-icon><Download /></el-icon>
+      </router-link>
+      <router-link to="/stock/out" class="nav-item" exact-active-class="active">
+        <el-icon><Upload /></el-icon>
+      </router-link>
+      <router-link to="/products" class="nav-item" exact-active-class="active">
+        <el-icon><Goods /></el-icon>
+      </router-link>
+      <div class="nav-item nav-fab" @click="mobileMenuVisible = true">
+        <el-icon><Plus /></el-icon>
+      </div>
+    </div>
   </el-container>
 </template>
 
@@ -207,7 +228,11 @@ function handleCommand(cmd) {
   padding: 0 24px;
   height: 64px !important;
 }
-.page-title { font-size: 20px; font-weight: 600; color: var(--text); }
+.header-left { display: flex; align-items: center; gap: 12px; }
+.mobile-header-toggle { display: none; font-size: 22px; color: var(--text); }
+.mobile-logo { display: none; }
+.mobile-logo .logo-icon { font-size: 24px; color: var(--primary); }
+.page-title { font-size: 20px; font-weight: 600; color: var(--text); margin-left: 4px; }
 .header-right { display: flex; align-items: center; gap: 16px; }
 
 .user-chip {
