@@ -46,9 +46,14 @@
     <!-- Valuation Table -->
     <el-card v-if="valuation" style="margin-top:20px">
       <template #header><span class="card-title">Stock Valuation</span></template>
-      <el-table :data="valuation.items" stripe>
+      <el-table :data="paginatedValuation" stripe @row-click="openDetail" style="cursor:pointer">
         <el-table-column label="Product" prop="product.name" min-width="160" />
-        <el-table-column label="SKU" prop="product.sku" width="120" />
+        <el-table-column label="Image" width="80">
+          <template #default="{ row }">
+            <el-image v-if="row.product?.productImage" :src="row.product.productImage" fit="cover" style="width:36px;height:36px;border-radius:8px" />
+            <el-icon v-else style="font-size:18px;color:#ccc"><Picture /></el-icon>
+          </template>
+        </el-table-column>
         <el-table-column label="Qty" prop="quantity" width="80" />
         <el-table-column label="Unit Price" width="120">
           <template #default="{ row }">{{ row.product.price ? '$' + row.product.price : '-' }}</template>
@@ -61,7 +66,19 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="pagination-wrapper" v-if="valuation.items?.length > pageSize">
+        <el-pagination
+          v-model:current-page="valPage"
+          :page-size="pageSize"
+          :total="valuation.items?.length || 0"
+          layout="prev, pager, next, total"
+          background
+          small
+        />
+      </div>
     </el-card>
+
+    <ProductDetailDialog v-model="detailVisible" :product="detailProduct" :stock-qty="detailStockQty" />
   </div>
 </template>
 
@@ -73,6 +90,7 @@ import {
   ArcElement, Title, Tooltip, Legend
 } from 'chart.js'
 import api from '../api/axios'
+import ProductDetailDialog from '../components/ProductDetailDialog.vue'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend)
 
@@ -82,6 +100,24 @@ const dateRange = ref([
 ])
 const movement = ref(null)
 const valuation = ref(null)
+const valPage = ref(1)
+const pageSize = 30
+
+const paginatedValuation = computed(() => {
+  if (!valuation.value?.items) return []
+  const start = (valPage.value - 1) * pageSize
+  return valuation.value.items.slice(start, start + pageSize)
+})
+
+const detailVisible = ref(false)
+const detailProduct = ref(null)
+const detailStockQty = ref(null)
+
+function openDetail(row) {
+  detailProduct.value = row.product
+  detailStockQty.value = row.quantity
+  detailVisible.value = true
+}
 
 const chartOptions = {
   responsive: true, maintainAspectRatio: false,
@@ -159,4 +195,5 @@ onMounted(load)
 .kpi-lbl { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
 .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .card-title { font-weight: 600; color: var(--text); }
+.pagination-wrapper { display: flex; justify-content: flex-end; margin-top: 16px; }
 </style>

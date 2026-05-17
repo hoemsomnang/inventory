@@ -26,7 +26,7 @@
           <p>All stock levels are healthy!</p>
         </div>
         <div v-else class="low-stock-list">
-          <div v-for="item in lowStock" :key="item.id" class="low-stock-item">
+          <div v-for="item in lowStock" :key="item.id" class="low-stock-item clickable" @click="openDetailFromStock(item)">
             <span class="product-name">{{ item.product.name }}</span>
             <el-tag type="danger" size="small">{{ item.quantity }} left</el-tag>
           </div>
@@ -42,11 +42,11 @@
           <el-button size="small" @click="$router.push('/stock/transactions')">View All</el-button>
         </div>
       </template>
-      <el-table :data="recentTx" stripe>
-        <el-table-column label="Date" prop="createdAt" width="180">
+      <el-table :data="recentTx" stripe @row-click="openDetailFromTx" style="cursor:pointer">
+        <el-table-column label="Date" prop="createdAt" width="130">
           <template #default="{ row }">{{ formatDate(row.createdAt) }}</template>
         </el-table-column>
-        <el-table-column label="Product" prop="product.name" />
+        <el-table-column label="Product" prop="product.name" min-width="150" />
         <el-table-column label="Type" width="100">
           <template #default="{ row }">
             <el-tag :type="row.type === 'IN' ? 'success' : 'danger'" size="small">{{ row.type }}</el-tag>
@@ -57,6 +57,8 @@
         <el-table-column label="By" prop="createdBy" width="120" />
       </el-table>
     </el-card>
+
+    <ProductDetailDialog v-model="detailVisible" :product="detailProduct" :stock-qty="detailStockQty" />
   </div>
 </template>
 
@@ -65,6 +67,7 @@ import { ref, computed, onMounted } from 'vue'
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import api from '../api/axios'
+import ProductDetailDialog from '../components/ProductDetailDialog.vue'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -72,6 +75,21 @@ const summary = ref({})
 const lowStock = ref([])
 const recentTx = ref([])
 const chartData = ref(null)
+const detailVisible = ref(false)
+const detailProduct = ref(null)
+const detailStockQty = ref(null)
+
+function openDetailFromStock(item) {
+  detailProduct.value = item.product
+  detailStockQty.value = item.quantity
+  detailVisible.value = true
+}
+
+function openDetailFromTx(row) {
+  detailProduct.value = row.product
+  detailStockQty.value = null
+  detailVisible.value = true
+}
 
 const chartOptions = {
   responsive: true, maintainAspectRatio: false,
@@ -93,7 +111,10 @@ const kpis = computed(() => [
 
 function formatDate(dt) {
   if (!dt) return ''
-  return new Date(dt).toLocaleString()
+  const d = new Date(dt)
+  const dateStr = d.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit' })
+  const timeStr = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
+  return `${dateStr} ${timeStr}`
 }
 
 onMounted(async () => {
@@ -182,6 +203,9 @@ onMounted(async () => {
   padding: 10px 12px;
   background: var(--surface-3);
   border-radius: 8px;
+  transition: background 0.2s, transform 0.15s;
 }
+.low-stock-item.clickable { cursor: pointer; }
+.low-stock-item.clickable:hover { background: var(--border); transform: translateX(4px); }
 .product-name { font-size: 13px; color: var(--text); }
 </style>

@@ -131,7 +131,7 @@ body,
   .el-table .cell {
     padding: 0 !important;
     line-height: 1.4 !important;
-    white-space: nowrap !important;
+    white-space: normal !important; /* Allow wrapping to display full text */
   }
 
   .el-table .cell.el-tooltip {

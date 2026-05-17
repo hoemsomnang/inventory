@@ -9,7 +9,7 @@
           <el-form-item label="Product" prop="productId" required>
             <el-select v-model="form.productId" placeholder="Select product" filterable style="width:100%"
               @change="onProductChange">
-              <el-option v-for="p in products" :key="p.id" :label="`[${p.sku}] ${p.name}`" :value="p.id" />
+              <el-option v-for="p in products" :key="p.id" :label="p.name" :value="p.id" />
             </el-select>
           </el-form-item>
           <el-form-item label="Current Stock">

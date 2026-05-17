@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Local env file (contains localhost config, never commit)
+.env
+# NOTE: .env.production IS committed — it only has the public Render URL
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

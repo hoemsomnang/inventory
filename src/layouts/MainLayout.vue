@@ -71,7 +71,7 @@
           <h2 class="page-title">{{ pageTitle }}</h2>
         </div>
         <div class="header-right">
-          <el-badge :value="lowStockCount" :hidden="lowStockCount === 0" type="danger">
+          <el-badge :value="unreadNotificationCount" :hidden="unreadNotificationCount === 0" type="danger">
             <el-button circle @click="$router.push('/stock/levels')">
               <el-icon><Bell /></el-icon>
             </el-button>
@@ -139,6 +139,7 @@ const auth = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 const lowStockCount = ref(0)
+const unreadNotificationCount = ref(0)
 const mobileMenuVisible = ref(false)
 
 const pageTitles = {
@@ -159,8 +160,33 @@ onMounted(async () => {
   try {
     const { data } = await api.get('/stock/low-stock')
     lowStockCount.value = data.length
+    
+    let lastSeen = parseInt(localStorage.getItem('lastSeenLowStock') || '0', 10)
+    
+    // If stock improved, update our baseline so new low stocks will trigger the badge
+    if (lowStockCount.value < lastSeen) {
+      lastSeen = lowStockCount.value
+      localStorage.setItem('lastSeenLowStock', lastSeen)
+    }
+    
+    if (lowStockCount.value > lastSeen) {
+      // Show how many NEW low stock items there are
+      unreadNotificationCount.value = lowStockCount.value - lastSeen
+    } else {
+      unreadNotificationCount.value = 0
+    }
   } catch {}
 })
+
+import { watch } from 'vue'
+
+watch(() => route.path, (newPath) => {
+  // Clear notifications when the user visits the Stock Levels page
+  if (newPath === '/stock/levels' && lowStockCount.value > 0) {
+    localStorage.setItem('lastSeenLowStock', lowStockCount.value)
+    unreadNotificationCount.value = 0
+  }
+}, { immediate: true })
 
 function handleCommand(cmd) {
   if (cmd === 'logout') {
